@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Coldplay Concert 2025 - BlackBookie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(145deg, #ffffff, #f0f2f5);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            width: 60%;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: 40px auto;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+        }
+        .container:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #ff4757;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            text-align: left;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #f1f1f1;
+            border-radius: 8px;
+            transition: box-shadow 0.3s ease;
+        }
+        input:focus {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+        .btn {
+            background: linear-gradient(145deg, #ff4757, #ff6b81);
+            color: #fff;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s ease-in-out;
+            width: 100%;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .timer {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ff4757;
+        }
+        .total-price {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #ff4757;
+        }
+        .upi-details {
+            font-size: 18px;
+            background: #f7f7f7;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background-color: #f1f1f1;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            margin-top: auto;
+        }
+        footer a {
+            color: #ff4757;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Payment</h1>
+        <div class="total-price">Total Price: <span id="totalPrice"></span> RS</div>
+
+        <p>Transaction ID: <span id="transactionId"></span></p>
+        <div class="timer">Time Remaining: <span id="countdown">5:00</span></div>
+
+        <div class="upi-details">
+            <p><strong>UPI Payment ID:</strong> <span style="color: #ff4757;">coldplaytickets01@oksbi</span></p>
+            <p>Please use this UPI ID to send the total amount. After the transaction, provide the UTR/Transaction ID below.</p>
+        </div>
+
+        <div class="form-group">
+            <label for="utr">Enter UTR/Transaction ID:</label>
+            <input type="text" id="utr" required>
+        </div>
+
+        <button type="button" class="btn" onclick="submitPayment()">Submit Payment</button>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 BlackBookie. All Rights Reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | Contact: <a href="mailto:support@blackbookie.com">support@blackbookie.com</a></p>
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const price = urlParams.get('price');
+        document.getElementById('totalPrice').innerText = price;
+
+        let timeLeft = 300;
+        const countdownElement = document.getElementById('countdown');
+        const timer = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                alert('Session expired');
+                window.location.href = 'index.html';
+            } else {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                countdownElement.innerText = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                timeLeft--;
+            }
+        }, 1000);
+
+        function generateTransactionId() {
+            const transactionId = 'TXN-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            document.getElementById('transactionId').innerText = transactionId;
+        }
+
+        generateTransactionId();
+
+        function submitPayment() {
+            const utr = document.getElementById('utr').value;
+            if (!utr) {
+                alert('Please enter your UTR/Transaction ID.');
+            } else {
+                alert('Payment submitted successfully!');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+
+</body>
+</html>
